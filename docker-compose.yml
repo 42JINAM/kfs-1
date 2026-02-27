@@ -1,0 +1,10 @@
+services:
+  grub-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    container_name: grub-builder
+    volumes:
+      - ./output:/workspace/output
+    working_dir: /workspace
