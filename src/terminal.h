@@ -1,0 +1,55 @@
+#ifndef TERMINAL_H
+# define TERMINAL_H
+
+# include <stdbool.h>
+# include <stddef.h>
+# include <stdint.h>
+# include "string.h"
+
+/* VGA Hardware Text mode (80 * 25 color text mode) */
+# define VGA_WIDTH	80
+# define VGA_HEIGHT	25	
+# define VGA_MEMORY	0xB8000
+
+/* Hardware text mode color constants. */
+enum e_vga_color
+{
+	VGA_COLOR_BLACK = 0,
+	VGA_COLOR_BLUE = 1,
+	VGA_COLOR_GREEN = 2,
+	VGA_COLOR_CYAN = 3,
+	VGA_COLOR_RED = 4,
+	VGA_COLOR_MAGENTA = 5,
+	VGA_COLOR_BROWN = 6,
+	VGA_COLOR_LIGHT_GREY = 7,
+	VGA_COLOR_DARK_GREY = 8,
+	VGA_COLOR_LIGHT_BLUE = 9,
+	VGA_COLOR_LIGHT_GREEN = 10,
+	VGA_COLOR_LIGHT_CYAN = 11,
+	VGA_COLOR_LIGHT_RED = 12,
+	VGA_COLOR_LIGHT_MAGENTA = 13,
+	VGA_COLOR_LIGHT_BROWN = 14,
+	VGA_COLOR_WHITE = 15,
+};
+
+/* Terminal state struct */
+typedef struct s_terminal_state
+{
+	size_t		row;
+	size_t		col;
+	uint8_t		color;
+	uint16_t	*buffer;	
+}	t_terminal_state;
+
+/* 함수 선언 */
+void		terminal_initialize(void);
+void		terminal_setcolor(uint8_t color);
+void		terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
+void		terminal_putchar(char c);
+void		terminal_write(const char *data, size_t size);
+void		terminal_writestring(const char *data);
+
+uint8_t		vga_entry_color(enum e_vga_color fg, enum e_vga_color bg);
+uint16_t	vga_entry(unsigned char uc, uint8_t color);
+extern t_terminal_state	g_vga;
+#endif // !TERMINAL_H
