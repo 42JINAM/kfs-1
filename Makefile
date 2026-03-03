@@ -8,7 +8,9 @@ SRCDIR := src
 
 
 CFILES = strlen \
-				 kernel
+				 kernel \
+				 terminal \
+				 vga
 
 SFILES = boot
 
