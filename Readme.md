@@ -40,11 +40,9 @@ src/*.c, src/*.s
 ```
 
 ## 1. Compile
-Files involved: `Makefile`, `src/*.c`, `src/boot.s` -> `objs/*.o`
+Files involved: `src/*.c`, `src/boot.s` -> `objs/*.o`
 
 1. Use a cross-compiler `i686-elf-gcc` to create object files (*.o)
-
-2. During compilation, the compiler uses the linker script (linker.ld) to prepare **memory addresses** for each section (code, data, stack).
 
 ### Cross-compiler ?
 A cross-compiler is a compiler that runs on one platform (e.g., your PC) but generates machine code for a different target platform (e.g., the 32-bit x86 architecture).
@@ -53,21 +51,21 @@ A cross-compiler is a compiler that runs on one platform (e.g., your PC) but gen
 ## 2. Link
 Files involved: `linker.ld`, `objs/*.o` -> `kernel.bin`
 
+
+
 1. All object files are linked together into a single executable kernel binary (`kernel.bin`).
 
-2. The linker arranges code, data, and stack according to the layout in linker.ld.
-
-3. Result: A binary the CPU can execute immediately after boot.
+2. During compilation, the compiler uses the linker script (linker.ld) to prepare **memory addresses** for each section (code, data, stack).
 
 ### Why is custom linker needed?
 
-The kernel runs **without an operating system**, so the CPU needs exact memory addresses for code and data. And linker.ld specifies this memory layout.
+The kernel runs **without an operating system**, so the CPU needs exact memory addresses for code and data. And `linker.ld` specifies this memory layout.
 
-Custom [linker script](https://wiki.osdev.org/Linker_Scripts) specifying memory layout of the kernel.
+Learn more about [linker script](https://wiki.osdev.org/Linker_Scripts)
 
 
 ## 3. Create ISO
-Files involved: `Makefile`, `grub.cfg`, `kernel.bin` -> `kfs-1.iso`
+Files involved: `grub.cfg`, `kernel.bin` -> `kfs-1.iso`
 
 1. Copy the kernel binary and GRUB configuration (grub.cfg) into an ISO file system structure.
 
