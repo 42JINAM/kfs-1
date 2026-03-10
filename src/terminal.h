@@ -32,13 +32,22 @@ enum e_vga_color
 	VGA_COLOR_WHITE = 15,
 };
 
-/* Terminal state struct */
-typedef struct s_terminal_state
+typedef struct s_terminal
 {
 	size_t		row;
 	size_t		col;
 	uint8_t		color;
-	uint16_t	*buffer;	
+	uint16_t	buffer[80 * 25 * 2];
+} t_terminal;
+
+/* Terminal state struct */
+typedef struct s_terminal_state
+{
+	bool		t1_switch;
+	uint16_t	*vga_buffer;
+	t_terminal	*active;
+	t_terminal	t1;
+	t_terminal	t2;
 }	t_terminal_state;
 
 /* 함수 선언 */

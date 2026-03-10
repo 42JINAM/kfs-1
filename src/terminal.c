@@ -19,10 +19,13 @@ void	terminal_initialize(void)
 	int	y;
 	int	idx;
 
-	g_vga.buffer = (uint16_t *)0xB8000;
-	g_vga.row = 0;
-	g_vga.col = 0;
-	g_vga.color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+	g_vga.vga_buffer = VGA_MEMORY;
+	g_vga.active = &g_vga.t1;
+	g_vga.t1_switch = true;
+	g_vga.active->row = 0;
+	g_vga.active->col = 0;
+	g_vga.active->color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+	g_vga.t2.color = vga_entry_color(VGA_COLOR_GREEN, VGA_COLOR_BLACK);
 	y = 0;
 	while (y < VGA_HEIGHT)
 	{
@@ -30,7 +33,7 @@ void	terminal_initialize(void)
 		while (x < VGA_WIDTH)
 		{
 			idx = y * VGA_WIDTH + x;
-			g_vga.buffer[idx] = vga_entry(' ', g_vga.color);
+			g_vga.vga_buffer[idx] = vga_entry(' ', g_vga.active->color);
 			x ++;
 		}
 		y ++;
@@ -39,26 +42,26 @@ void	terminal_initialize(void)
 
 void	terminal_setcolor(uint8_t color)
 {
-	g_vga.color = color;
+	g_vga.active->color = color;
 }
 
 void	terminal_putchar(char c)
 {
 	if (c == '\n') {
-		g_vga.col = 0;
-		if (++g_vga.row == VGA_HEIGHT) {
+		g_vga.active->col = 0;
+		if (++g_vga.active->row == VGA_HEIGHT) {
 			// scroll down
 			return ;
 		}
 	} 
 	else {
-		terminal_putentryat(c, g_vga.color, g_vga.col, g_vga.row);
-		if (++g_vga.col == VGA_WIDTH)
+		terminal_putentryat(c, g_vga.active->color, g_vga.active->col, g_vga.active->row);
+		if (++g_vga.active->col == VGA_WIDTH)
 		{
-			g_vga.col = 0;
-			if (++g_vga.row == VGA_HEIGHT) {
+			g_vga.active->col = 0;
+			if (++g_vga.active->row == VGA_HEIGHT) {
 				// scroll down
-				g_vga.row = 0;
+				g_vga.active->row = 0;
 			}
 		}
 	}
@@ -67,7 +70,7 @@ void	terminal_putchar(char c)
 void	terminal_write_char(char c)
 {
 	terminal_putchar(c);
-	update_cursor(g_vga.col, g_vga.row);
+	update_cursor(g_vga.active->col, g_vga.active->row);
 }
 
 void	terminal_write_line(const char *data)
@@ -80,5 +83,5 @@ void	terminal_write_line(const char *data)
 		terminal_putchar(data[i]);
 		i ++;
 	}
-	update_cursor(g_vga.col, g_vga.row);
+	update_cursor(g_vga.active->col, g_vga.active->row);
 }
