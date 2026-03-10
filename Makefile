@@ -23,7 +23,8 @@ NAME    := kfs-1
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := strlen kernel terminal vga IO_handle keyboard
+CFILES  := strlen kernel terminal vga IO_handle keyboard \
+		   printf/ft_printf printf/ft_format_1 printf/ft_format_2 printf/ft_utils 
 SFILES  := boot
 
 C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
@@ -75,6 +76,10 @@ build: $(IMAGE)
 run: $(IMAGE)
 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
 	qemu-system-i386 -cdrom $(IMAGE)
+
+debug: $(IMAGE)
+	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU in debug mode...$(CEND)"
+	qemu-system-i386 -s -S -cdrom $(IMAGE)
 
 clean:
 	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso
