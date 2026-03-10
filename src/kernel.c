@@ -11,10 +11,8 @@
 //	- No syscalls implemented yet
 //	- Direct physical memory.
 //	- No any (?) interface for userside (malloc, printf, fopen, ...)
-///
-// TODO : support for line breaks('\n')
-// TODO:: support for scrolling
 //
+
 void	kernel_main(void)
 {
 	terminal_initialize();
