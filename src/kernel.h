@@ -3,6 +3,10 @@
 # include "terminal.h"
 # include "keyboard.h"
 
+# include <limits.h>
+# include <stdbool.h>
+# include <stdarg.h>
+
 //
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 // # if defined(__linux__)
@@ -38,6 +42,18 @@ static inline uint8_t inb(uint16_t port)
                    : "memory");
     return ret;
 }
+
+// printf
+int	printf(const char *format, ...);
+
+int	ft_printf_c(va_list ap);
+int	ft_printf_s(va_list ap);
+// int	ft_printf_di(va_list ap);
+// int	ft_printf_u(va_list ap);
+int	ft_printf_p(va_list ap);
+int	ft_printf_x(va_list ap);
+int	ft_printf_xx(va_list ap);
+
 
 void update_cursor(int x, int y);
 void keyboard_handler();

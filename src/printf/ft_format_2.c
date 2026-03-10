@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../kernel.h"
 
 int	ft_write_hex(unsigned long long nb, char *base)
 {
@@ -22,11 +22,8 @@ int	ft_write_hex(unsigned long long nb, char *base)
 		ft_write_hex(nb / 16, base);
 	if (cnt == -1)
 		return (-1);
-	tmp = write(1, &base[nb % 16], 1);
-	if (tmp == -1)
-		cnt = -1;
-	else
-		cnt += tmp;
+	terminal_write_char(base[nb % 16]);
+	cnt += tmp;
 	return (cnt);
 }
 
@@ -38,11 +35,9 @@ int	ft_printf_p(va_list ap)
 
 	ptr = (void *)va_arg(ap, void *);
 	cnt = 0;
-	if (write(1, &"0", 1) == -1)
-		return (-1);
+	terminal_write_char('0');
+	terminal_write_char('x');
 	cnt++;
-	if (write(1, &"x", 1) == -1)
-		return (-1);
 	cnt++;
 	base = "0123456789abcdef";
 	cnt += ft_write_hex((unsigned long long)ptr, base);

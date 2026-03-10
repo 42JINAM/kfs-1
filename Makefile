@@ -85,11 +85,13 @@ clean:
 	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso
 	@echo "$(CGREEN)[✓] Cleaned all build artifacts$(CEND)"
 
+re:		clean build
 # ==============================
 # Utility
 # ==============================
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
+	mkdir -p $(OBJDIR)/printf
 	@echo "$(CGREEN)[✓] $(OBJDIR) directory created$(CEND)"
 
 .PHONY: all build run clean

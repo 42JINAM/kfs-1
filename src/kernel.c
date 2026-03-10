@@ -20,6 +20,9 @@ void	kernel_main(void)
 	terminal_initialize();
 	terminal_write_line("42 hello\n");
 	terminal_write_line("42 bye\n");
+
+	printf("printf c: %c\n", 'c');
+	printf("printf s: %s\n", "string");
 	
 	keyboard_handler();
 }
