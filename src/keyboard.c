@@ -30,35 +30,6 @@ uint8_t	read_keyboard(void) {
     return inb(0x60);           // read scancode
 }
 
-void	*memcpy(void	*restrict dstptr, const void	*restrict srcptr, size_t size)
-{
-	unsigned char* dst = (unsigned char*) dstptr;
-	const unsigned char* src = (const unsigned char*) srcptr;
-	for (size_t i = 0; i < size; i++)
-		dst[i] = src[i];
-	return dstptr;
-}
-
-void* memset(void* bufptr, int value, size_t size) {
-	unsigned char* buf = (unsigned char*) bufptr;
-	for (size_t i = 0; i < size; i++)
-		buf[i] = (unsigned char) value;
-	return bufptr;
-}
-
-void	backup_terminal(t_terminal *t)
-{
-    memcpy(t->buffer, g_vga.vga_buffer, 80 * 25 * 2);
-}
-
-void    flush_terminal(t_terminal *t)
-{
-    g_vga.active = t;
-    memcpy(g_vga.vga_buffer, t->buffer, 80 * 25 * 2);
-}
-
-
-
 void keyboard_handler()
 {
 
@@ -73,13 +44,11 @@ void keyboard_handler()
                 g_vga.t1_switch = true;
                 backup_terminal(&g_vga.t2);
                 flush_terminal(&g_vga.t1);
-                terminal_write_line("Switch to t1");
             } else if (scancode == KEY_F2 && g_vga.t1_switch)
             {
                 g_vga.t1_switch = false;
                 backup_terminal(&g_vga.t1);
                 flush_terminal(&g_vga.t2);
-                terminal_write_line("Switch to t2");
             }
             else
             {

@@ -59,6 +59,9 @@ void		terminal_putchar(char c);
 void		terminal_write_char(char c);
 void		terminal_write_line(const char *data);
 
+void		backup_terminal(t_terminal *t);
+void    	flush_terminal(t_terminal *t);
+
 uint8_t		vga_entry_color(enum e_vga_color fg, enum e_vga_color bg);
 uint16_t	vga_entry(unsigned char uc, uint8_t color);
 
