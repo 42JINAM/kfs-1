@@ -30,18 +30,13 @@ int	ft_write_hex(unsigned long long nb, char *base)
 int	ft_printf_p(va_list ap)
 {
 	void	*ptr;
-	int		cnt;
 	char	*base;
 
 	ptr = (void *)va_arg(ap, void *);
-	cnt = 0;
 	terminal_write_char('0');
 	terminal_write_char('x');
-	cnt++;
-	cnt++;
 	base = "0123456789abcdef";
-	cnt += ft_write_hex((unsigned long long)ptr, base);
-	return (cnt);
+	return (ft_write_hex((unsigned long long)ptr, base) + 2);
 }
 
 int	ft_printf_x(va_list ap)
