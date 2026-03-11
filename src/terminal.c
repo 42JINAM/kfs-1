@@ -35,8 +35,8 @@ void	terminal_initialize(void)
 	g_vga.t2.row = 0;
 	g_vga.t2.color = vga_entry_color(VGA_COLOR_LIGHT_RED, VGA_COLOR_RED);
 	
-	set_background(&g_vga.t1.buffer, vga_entry(' ', g_vga.t1.color));
-	set_background(&g_vga.t2.buffer, vga_entry(' ', g_vga.t2.color));
+	set_background(g_vga.t1.buffer, vga_entry(' ', g_vga.t1.color));
+	set_background(g_vga.t2.buffer, vga_entry(' ', g_vga.t2.color));
 	
 	flush_terminal(&g_vga.t1);
 	g_vga.t1_switch = true;
