@@ -106,13 +106,13 @@ void	terminal_write_line(const char *data)
 
 void	backup_terminal(t_terminal *t)
 {
-    memcpy(t->buffer, g_vga.vga_buffer, 80 * 25 * 2);
+    memcpy(t->buffer, g_vga.vga_buffer, VGA_WIDTH * VGA_HEIGHT * 2);
 }
 
 void    flush_terminal(t_terminal *t)
 {
     g_vga.active = t;
-    memcpy(g_vga.vga_buffer, t->buffer, 80 * 25 * 2);
+    memcpy(g_vga.vga_buffer, t->buffer, VGA_WIDTH * VGA_HEIGHT * 2);
+
+	update_cursor(g_vga.active->col, g_vga.active->row);
 }
-
-

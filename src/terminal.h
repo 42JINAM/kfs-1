@@ -37,7 +37,7 @@ typedef struct s_terminal
 	size_t		row;
 	size_t		col;
 	uint8_t		color;
-	uint16_t	buffer[80 * 25 * 2];
+	uint16_t	buffer[VGA_WIDTH * VGA_HEIGHT * 2];
 } t_terminal;
 
 /* Terminal state struct */
