@@ -25,7 +25,6 @@ IMAGE   := $(NAME).iso
 
 CFILES  := strlen kernel terminal vga IO_handle keyboard memcpy memset \
 		   print/printf \
-		   print/printk \
 		   print/printf_format 
 SFILES  := boot
 
