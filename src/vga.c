@@ -20,5 +20,5 @@ void	terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	const size_t	idx = y * VGA_WIDTH + x;
 
-	g_vga.buffer[idx] = vga_entry(c, color);
+	g_vga.vga_buffer[idx] = vga_entry(c, color);
 }

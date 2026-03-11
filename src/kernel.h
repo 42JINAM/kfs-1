@@ -42,4 +42,8 @@ static inline uint8_t inb(uint16_t port)
 void update_cursor(int x, int y);
 void keyboard_handler();
 
+//Libk
+void*   memset(void* bufptr, int value, size_t size);
+void*   memcpy(void	*restrict dstptr, const void	*restrict srcptr, size_t size);
+
 #endif /* KERNEL_H */
