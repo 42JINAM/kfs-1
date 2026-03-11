@@ -15,15 +15,12 @@
 int	ft_write_hex(unsigned long long nb, char *base)
 {
 	static int	cnt;
-	int			tmp;
 
 	cnt = 0;
 	if (nb > 15)
 		ft_write_hex(nb / 16, base);
-	if (cnt == -1)
-		return (-1);
 	terminal_write_char(base[nb % 16]);
-	cnt += tmp;
+	cnt += 1;
 	return (cnt);
 }
 
