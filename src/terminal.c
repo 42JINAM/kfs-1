@@ -19,7 +19,7 @@ void	terminal_initialize(void)
 	int	y;
 	int	idx;
 
-	g_vga.vga_buffer = VGA_MEMORY;
+	g_vga.vga_buffer = (uint16_t *)VGA_MEMORY;
 	g_vga.active = &g_vga.t1;
 	g_vga.t1_switch = true;
 	g_vga.active->row = 0;
@@ -51,14 +51,14 @@ void	scroll_down() {
 	for (int y = 0; y < VGA_HEIGHT - 1; y++) {
 		for (int x = 0; x < VGA_WIDTH; x++) {
 			idx = y * VGA_WIDTH + x;
-			g_vga.buffer[idx] = g_vga.buffer[idx + VGA_WIDTH];
+			g_vga.active->buffer[idx] = g_vga.active->buffer[idx + VGA_WIDTH];
 		}
 	}
 	for (int x = 0; x < VGA_WIDTH; x++) {
 		idx = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
-		g_vga.buffer[idx] = g_vga.buffer[idx + VGA_WIDTH];
+		g_vga.active->buffer[idx] = g_vga.active->buffer[idx + VGA_WIDTH];
 	}
-	update_cursor(g_vga.col, g_vga.row);
+	update_cursor(g_vga.active->col, g_vga.active->row);
 }
 
 void	terminal_putchar(char c)
