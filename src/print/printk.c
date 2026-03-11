@@ -6,7 +6,7 @@ int printk(const char *format, ...)
     int len;
 
     va_start(ap, format);
-    len = vprintf_internal(format, ap);
+    len = printf_internal(format, ap);
     va_end(ap);
 
     return len;

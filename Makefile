@@ -24,7 +24,9 @@ KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
 CFILES  := strlen kernel terminal vga IO_handle keyboard \
-		   print/ft_printf print/ft_format_1 print/ft_format_2 print/ft_utils 
+		   print/printf \
+		   print/printk \
+		   print/printf_format 
 SFILES  := boot
 
 C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
@@ -77,9 +79,9 @@ run: $(IMAGE)
 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
 	qemu-system-i386 -cdrom $(IMAGE)
 
-debug: $(IMAGE)
-	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU in debug mode...$(CEND)"
-	qemu-system-i386 -s -S -cdrom $(IMAGE)
+# debug: $(IMAGE)
+# 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU in debug mode...$(CEND)"
+# 	qemu-system-i386 -s -S -cdrom $(IMAGE)
 
 clean:
 	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso

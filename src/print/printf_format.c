@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_format_1.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yoonsele <yoonsele@student.42.kr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/05 10:36:26 by yoonsele          #+#    #+#             */
-/*   Updated: 2022/12/13 16:57:11 by yoonsele         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../kernel.h"
 
 int	ft_write_hex(unsigned long long nb, char *base)
@@ -57,7 +45,7 @@ int	ft_printf_p(va_list ap)
 	terminal_write_char('0');
 	terminal_write_char('x');
 	base = "0123456789abcdef";
-	return (ft_write_hex((unsigned long long)ptr, base) + 2);
+	return (ft_write_hex((uintptr_t)ptr, base) + 2);
 }
 
 int	ft_printf_x(va_list ap)

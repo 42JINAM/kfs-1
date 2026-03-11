@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yoonsele <yoonsele@student.42.kr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/04 17:20:26 by yoonsele          #+#    #+#             */
-/*   Updated: 2022/12/04 17:25:44 by yoonsele         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../kernel.h"
 
 int	ft_format(const char **format, va_list ap)
@@ -57,7 +45,6 @@ int	printf(const char *format, ...)
 {
 	va_list	ap;
 	int		len;
-	int		tmp;
 
 	va_start (ap, format);
 	len = printf_internal(format, ap);
