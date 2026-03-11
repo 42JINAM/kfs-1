@@ -47,14 +47,13 @@ int	printf(const char *format, ...)
 	len = 0;
 	while (*format)
 	{
-		if (*format == '%')
+		if (*format == '%') {
 			tmp = ft_format(&format, ap);
+    }
 		else {
 			terminal_write_char(*format);
 			tmp = 1;
 		}
-		if (tmp == -1)
-			return (-1);
 		len += tmp;
 		format++;
 	}
