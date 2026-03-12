@@ -23,7 +23,7 @@ NAME    := kfs-1
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := strlen kernel terminal vga IO_handle keyboard memcpy memset \
+CFILES  := strlen kernel terminal vga IO_handle keyboard memcpy memset init switch_terminal \
 		   print/printf \
 		   print/printf_format \
 		   ascii/ascii_1_bonus \

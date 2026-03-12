@@ -2,54 +2,19 @@
 
 t_terminal_state	g_vga;
 
-void	set_background(uint16_t* buffer, uint16_t entry) {
-	int idx;
-
-	for (int y = 0; y < VGA_HEIGHT; y++) {
-		for (int x = 0; x < VGA_WIDTH; x++) {
-			idx = y * VGA_WIDTH + x;
-			buffer[idx] = entry;
-		}
-	}
-}
-void	set_terminal(t_terminal *t, uint16_t color)
-{
-	t->col = 0;
-	t->row = 0;
-	t->color = color;
-	set_background(t->buffer, vga_entry(' ', color));
-}
-
-void	terminal_initialize(void)
-{
-	set_terminal(&g_vga.t1, vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK));
-	set_terminal(&g_vga.t2, vga_entry_color(VGA_COLOR_LIGHT_RED, VGA_COLOR_RED));
-	flush_terminal(&g_vga.t1);
-	g_vga.t1_switch = true;
-}
-
-void	terminal_setcolor(uint8_t color)
-{
-	g_vga.active->color = color;
-}
-
 void	scroll_down() {
 	int idx;
-
-		terminal_putentryat('0', g_vga.active->color, g_vga.active->col, g_vga.active->row);
-  
 
 	for (int y = 0; y < VGA_HEIGHT - 1; y++) {
 		for (int x = 0; x < VGA_WIDTH; x++) {
 			idx = y * VGA_WIDTH + x;
-			g_vga.active->buffer[idx] = g_vga.active->buffer[idx + VGA_WIDTH];
+			g_vga.vga_buffer[idx] = g_vga.vga_buffer[idx + VGA_WIDTH];
 		}
 	}
 	for (int x = 0; x < VGA_WIDTH; x++) {
 		idx = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
-		g_vga.active->buffer[idx] = g_vga.active->buffer[idx + VGA_WIDTH];
+		g_vga.vga_buffer[idx] = g_vga.vga_buffer[idx + VGA_WIDTH];
 	}
-  flush_terminal(g_vga.active);
 	update_cursor(g_vga.active->col, g_vga.active->row);
 }
 
@@ -93,18 +58,5 @@ void	terminal_write_line(const char *data)
 		terminal_putchar(data[i]);
 		i ++;
 	}
-	update_cursor(g_vga.active->col, g_vga.active->row);
-}
-
-void	backup_terminal(t_terminal *t)
-{
-    memcpy(t->buffer, g_vga.vga_buffer, VGA_WIDTH * VGA_HEIGHT * 2);
-}
-
-void    flush_terminal(t_terminal *t)
-{
-    g_vga.active = t;
-    memcpy(g_vga.vga_buffer, t->buffer, VGA_WIDTH * VGA_HEIGHT * 2);
-
 	update_cursor(g_vga.active->col, g_vga.active->row);
 }
