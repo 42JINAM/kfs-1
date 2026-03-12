@@ -41,7 +41,7 @@ void	print_ascii(void)
 	{
 		erase_ascii();
 		draw[i]();
-		busy_wait(80000000);
+		busy_wait(10000000);
 		i++;
 	}
 }
