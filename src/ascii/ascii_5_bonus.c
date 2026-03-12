@@ -24,6 +24,7 @@ void	ascii_21(void)
 	printf("                  `.                           .-\n");
 	printf("                     '- .                   .-`\n");
 	printf("                         '`\\bqHMMMMMMHHb--`\n");
+  printf("Please wait to start the kernel |=====================>    |");
 }
 
 void	ascii_22(void)
@@ -51,6 +52,7 @@ void	ascii_22(void)
 	printf("                   -.                          .-\n");
 	printf("                      - .                   . `\n");
 	printf("                         '-*#d#HHMMMMHH#\"-'\n");
+  printf("Please wait to start the kernel |======================>   |");
 }
 
 void	ascii_23(void)
@@ -78,6 +80,7 @@ void	ascii_23(void)
 	printf("                  ` .                          . '\n");
 	printf("                     ` .                    . `\n");
 	printf("                         '--##HH#HMMMHH#\"\"`\n");
+  printf("Please wait to start the kernel |=======================>  |");
 }
 
 void	ascii_24(void)
@@ -105,6 +108,7 @@ void	ascii_24(void)
 	printf("                   -.            -              .'\n");
 	printf("                      -.                    . `\n");
 	printf("                         '--=&&MH##HMHH#\"\"\"\n");
+  printf("Please wait to start the kernel |========================> |");
 }
 
 void	ascii_25(void)
@@ -132,4 +136,5 @@ void	ascii_25(void)
 	printf("                  ` .               -          .-\n");
 	printf("                     ` .                    .-\n");
 	printf("                         ' -==pHMMH##HH#\"\"\"\n");
+  printf("Please wait to start the kernel |=========================>|");
 }
