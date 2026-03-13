@@ -1,6 +1,6 @@
 #include "kernel.h" 
 
-t_terminal_state	g_vga;
+t_terminal	g_vga;
 
 void	scroll_down() {
 	int idx;

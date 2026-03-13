@@ -30,24 +30,28 @@ enum e_vga_color
 	VGA_COLOR_LIGHT_BROWN = 14,
 	VGA_COLOR_WHITE = 15,
 };
+enum e_current_tab 
+{
+	TAB_1,
+	TAB_2
+};
 
-typedef struct s_terminal
+typedef struct s_tab
 {
 	size_t		row;
 	size_t		col;
 	uint8_t		color;
 	uint16_t	buffer[VGA_WIDTH * VGA_HEIGHT * 2];
-} t_terminal;
+} t_tab;
 
-/* Terminal state struct */
-typedef struct s_terminal_state
+typedef struct s_terminal
 {
-	bool		t1_switch;
-	uint16_t	*vga_buffer;
-	t_terminal	*active;
-	t_terminal	t1;
-	t_terminal	t2;
-}	t_terminal_state;
+	enum e_current_tab	current_tab;
+	uint16_t			*vga_buffer;
+	t_tab				*active;
+	t_tab				t1;
+	t_tab				t2;
+}	t_terminal;
 
 // vga.c
 uint8_t		vga_entry_color(enum e_vga_color fg, enum e_vga_color bg);
@@ -58,12 +62,12 @@ void		terminal_write_char(char c);
 void		terminal_write_line(const char *data);
 
 // init.c
-void		init_terminal(t_terminal *t, uint16_t color);
+void		init_terminal(t_tab *t, uint16_t color);
 void		terminal_initialize(void);
 
 // switch_tab.c
-void		backup_terminal(t_terminal *t);
-void    	flush_terminal(t_terminal *t);
+void		backup_terminal(t_tab *t);
+void    	flush_terminal(t_tab *t);
 
-extern t_terminal_state	g_vga;
+extern t_terminal	g_vga;
 #endif // !TERMINAL_H

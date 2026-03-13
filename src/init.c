@@ -11,7 +11,7 @@ void	set_background(uint16_t* buffer, uint16_t entry) {
 	}
 }
 
-void	init_terminal(t_terminal *t, uint16_t color)
+void	init_terminal(t_tab *t, uint16_t color)
 {
 	t->col = 0;
 	t->row = 0;
@@ -24,5 +24,5 @@ void	terminal_initialize(void)
 	init_terminal(&g_vga.t1, vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK));
 	init_terminal(&g_vga.t2, vga_entry_color(VGA_COLOR_LIGHT_RED, VGA_COLOR_RED));
 	flush_terminal(&g_vga.t1);
-	g_vga.t1_switch = true;
+	g_vga.current_tab = TAB_1;
 }

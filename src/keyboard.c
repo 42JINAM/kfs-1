@@ -77,18 +77,18 @@ void keyboard_handler()
             }
             else if (scancode == KEY_F1)
             {
-                if (!g_vga.t1_switch)
+                if (g_vga.current_tab == TAB_2)
                 {
-                    g_vga.t1_switch = true;
+                    g_vga.current_tab = TAB_1;
                     backup_terminal(&g_vga.t2);
                     flush_terminal(&g_vga.t1);
                 }
 
             } else if (scancode == KEY_F2)
             {
-                if (g_vga.t1_switch)
+                if (g_vga.current_tab == TAB_1)
                 {
-                    g_vga.t1_switch = false;
+                    g_vga.current_tab = TAB_2;
                     backup_terminal(&g_vga.t1);
                     flush_terminal(&g_vga.t2);
                 }
