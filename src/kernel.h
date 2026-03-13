@@ -3,7 +3,7 @@
 # include "terminal.h"
 # include "keyboard.h"
 # include "ascii/ascii.h"
-# include "utils/printf.h"
+# include "utils/utils.h"
 
 # include <limits.h>
 # include <stdbool.h>
@@ -48,10 +48,6 @@ static inline uint8_t inb(uint16_t port)
 
 void update_cursor(int x, int y);
 void keyboard_handler();
-
-//Libk
-void*   memset(void* bufptr, int value, size_t size);
-void*   memcpy(void	*restrict dstptr, const void	*restrict srcptr, size_t size);
 
 extern t_terminal_state	g_vga;
 #endif /* KERNEL_H */
