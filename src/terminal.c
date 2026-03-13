@@ -23,7 +23,7 @@ void	scroll_down() {
 	}
 	for (int x = 0; x < VGA_WIDTH; x++) {
 		idx = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
-		g_vga.vga_buffer[idx] = g_vga.vga_buffer[idx + VGA_WIDTH];
+		g_vga.vga_buffer[idx] = vga_entry(' ', g_vga.active->color);
 	}
 	update_cursor(g_vga.active->col, g_vga.active->row);
 }
