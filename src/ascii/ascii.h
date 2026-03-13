@@ -1,23 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ascii_art.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dham <dham@student.42seoul.kr>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/19 18:44:54 by dham              #+#    #+#             */
-/*   Updated: 2023/01/20 17:03:36 by dham             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef ASCII_ART_H
 # define ASCII_ART_H
 
 typedef void	(*t_ascii_func)(void);
 
 void	print_ascii(void);
-void    logo(void);
-//void	prompt_color(int ret_code);
 
 void	ascii_1(void);
 void	ascii_2(void);

@@ -1,20 +1,6 @@
 #include "ascii.h"
 #include "../kernel.h"
 
-void	logo(void)
-{
-	printf(" 42 42 42");
-	printf("\n");
-}
-
-void	erase_ascii(void)
-{
-	set_background(g_vga.vga_buffer, vga_entry(' ', g_vga.active->color));
-	g_vga.active->col = 0;
-	g_vga.active->row = 0;
-	update_cursor(g_vga.active->col, g_vga.active->row);
-}
-
 static void	busy_wait(unsigned int count)
 {
 	volatile unsigned int	delay;
@@ -34,12 +20,12 @@ void	print_ascii(void)
 	};
 	int					i;
 
-	set_terminal(&g_vga.t1, vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
+	init_terminal(&g_vga.t1, vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
 	flush_terminal(&g_vga.t1);
 	i = 0;
 	while (i < 25)
 	{
-		erase_ascii();
+		init_terminal(&g_vga.t1, vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
 		draw[i]();
 		busy_wait(10000000);
 		i++;

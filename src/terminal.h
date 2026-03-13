@@ -58,11 +58,10 @@ void		terminal_write_char(char c);
 void		terminal_write_line(const char *data);
 
 // init.c
-void		set_terminal(t_terminal *t, uint16_t color);
-void		set_background(uint16_t* buffer, uint16_t entry);
+void		init_terminal(t_terminal *t, uint16_t color);
 void		terminal_initialize(void);
 
-
+// switch_tab.c
 void		backup_terminal(t_terminal *t);
 void    	flush_terminal(t_terminal *t);
 

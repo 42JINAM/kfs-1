@@ -48,5 +48,4 @@ static inline uint8_t inb(uint16_t port)
 void update_cursor(int x, int y);
 void keyboard_handler();
 
-extern t_terminal_state	g_vga;
 #endif /* KERNEL_H */
