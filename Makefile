@@ -61,7 +61,7 @@ all: $(IMAGE)
 # ==============================
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) -std=gnu99 -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
+	$(CC) -std=gnu99 -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
 	$(AS) -f elf $< -o $@
