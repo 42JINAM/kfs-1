@@ -124,11 +124,36 @@ Files involved: `grub.cfg`, `kfs-1.iso`
 
 	- No any (?) interface for userside (malloc, printf, fopen, ...)
 
+## 6. GDT (global descriptor table)
+
+### What is GDT ?
+
+GDT helps manage how memory is accessed and protected. 
+
+It's key role is to define **memory segments** and their attributes: the base address, the size, and access privileges like executability and writability.
+
+### Memory segments ?
+A memory segment is a portion (a block) of memory that is treated as a separate logical unit.
+
+- Code segment → stores the program instructions
+- Data segment → stores variables
+- Stack segment → stores function calls and local data
+- Extra segment → additional data storage
+
+Each segment has its own segment register.
+- CS (Code Segment) → program instructions
+- DS (Data Segment) → program data
+- SS (Stack Segment) → stack memory
+- ES (Extra Segment) → extra data
+
 
 ## Useful link
 [I/O handling](https://wiki.osdev.org/Inline_Assembly/Examples)
 
 ### keyboard input
+[memory segment](https://www.geeksforgeeks.org/computer-organization-architecture/memory-segmentation-8086-microprocessor/)
+
+
 [Receiving Bytes From Device/s](https://wiki.osdev.org/index.php?title=I8042_PS/2_Controller)
 
 [Keyboard](https://osdev.jsren.co.uk/input-output/keyboard)
