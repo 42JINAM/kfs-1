@@ -11,4 +11,6 @@
 # include <stdarg.h>
 # include <stdint.h>
 
+void gdt_init();
+
 #endif /* KERNEL_H */
