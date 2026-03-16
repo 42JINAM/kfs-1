@@ -21,6 +21,8 @@ struct gdt_ptr {
     uint32_t base;
 } __attribute__((packed));
 
+// CPU read 6 bytes from `lgdt` command
+
 void gdt_init();
 
 #endif

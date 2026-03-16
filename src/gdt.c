@@ -20,11 +20,13 @@ void gdt_set_gate(int index, uint32_t base, uint32_t limit, uint8_t access, uint
 
 void gdt_init()
 {
+    // Set the size of the GDT (total bytes - 1), the base address of the GDT
     gp.limit = (sizeof(struct gdt_entry) * 7) - 1;
     gp.base = (uint32_t)&gdt;
 
     gdt_set_gate(0, 0, 0, 0, 0);                 // null
 
+   //            i  b  limit       access gran       
     gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);  // kernel code
     gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);  // kernel data
     gdt_set_gate(3, 0, 0xFFFFFFFF, 0x92, 0xCF);  // kernel stack
@@ -33,5 +35,6 @@ void gdt_init()
     gdt_set_gate(5, 0, 0xFFFFFFFF, 0xF2, 0xCF);  // user data
     gdt_set_gate(6, 0, 0xFFFFFFFF, 0xF2, 0xCF);  // user stack
 
+    // Load the new GDT into the CPU
     gdt_flush((uint32_t)&gp);
 }
