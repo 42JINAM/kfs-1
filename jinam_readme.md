@@ -100,7 +100,8 @@ Base
 ## Limit 
 이 세그먼트의 한계점
 오프셋은 이 숫자를 넘어갈 수 없음. 
-원래 20비트가 필요 해서 하위 16비트와 상위 4비트를 따로 나눠서 저장 
+원래 20비트가 필요 해서 하위 16비트와 상위 4비트를 따로 나눠서 저장
+마지막 바이트의 인덱스(오프셋)
 
 ## Base
 이 세그먼트의 시작 주소
@@ -168,7 +169,15 @@ Ring 3: Applications - user level
 하드웨어가 사용하지 않는 영역 
 
 
-
 # 참고 
 https://medium.com/@mangryang.dev/%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C-gdt-4d60d0f40dfc
 
+
+# GDT (Global descriptor table)
+각 세그먼트 디스크립터 를 가진 테이블 
+각 엔트리는 8byte!
+첫 엔트리는 항상 Null
+
+#  GDTR (Global descriptor table register) 48 비트 
+CPU 가 gdt 를 찾아낼 수 있도록 gdt 의 주소와 사이즈 를 담고 있는 레지스터 
+GDT base 32 비트 + gdt limit 16비트 
