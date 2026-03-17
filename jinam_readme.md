@@ -142,9 +142,33 @@ Ring 0: kernel
 Ring 1, 2 : Device drivers
 Ring 3: Applications - user level
 
-## P bit 
+### P bit 
 이 세그먼트가 메모리상에 존재하는지를 나타냄
 
+## Flags 
+이 세그먼트 해석 방식을 결정
+
+3 : G
+2 : DB
+1 : L
+0 : Reserved
+
+### G
+0 : 세그먼트 크기 단위를 1 byte 블록 단위로 설정
+1 : 크기 단위를 4 KiB로 설정 
+
+### DB (Default/Big)
+0 : 16 bit
+1 : 32 bit
+
+### L (Long mode)
+64비트 롱모드 여부 
+
+### Reserved (AVL)
+하드웨어가 사용하지 않는 영역 
 
 
+
+# 참고 
+https://medium.com/@mangryang.dev/%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C-gdt-4d60d0f40dfc
 
