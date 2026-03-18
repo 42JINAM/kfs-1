@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #define GDT_ADDRESS	0x00000800
+
 // uint8_t	1 byte
 // uint16_t	2 bytes
 // uint32_t	4 bytes
@@ -22,8 +23,10 @@ typedef struct  __attribute__((packed)) gdt_ptr {
     uint32_t base;
 } t_gdt_ptr;
 
-// CPU read 6 bytes from `lgdt` command
+extern t_gdt_entry *gdt;
+extern t_gdt_ptr   *gp;
 
 void gdt_init();
+void check_gdt_value();
 
 #endif
