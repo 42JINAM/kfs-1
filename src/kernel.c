@@ -7,17 +7,14 @@
 void	kernel_main(void)
 {
   gdt_init();
-	g_vga.vga_buffer = (uint16_t *)VGA_MEMORY;
+  g_vga.vga_buffer = (uint16_t *)VGA_MEMORY;
 
 	// print_ascii();
 	terminal_initialize();
 	terminal_write_line("hello 42 world!\n");
-  
-  int     esp;
-  int     ebp;
-  GET_ESP(esp);
-  GET_EBP(ebp);
 
-  hexdump(esp, ebp - esp);
+  printf("%p\n", 0x00000800);
+  hexdump(0x00000800, 64);
+  
 	keyboard_handler();
 }

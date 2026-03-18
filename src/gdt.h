@@ -3,23 +3,24 @@
 
 #include <stdint.h>
 
+#define GDT_ADDRESS	0x00000800
 // uint8_t	1 byte
 // uint16_t	2 bytes
 // uint32_t	4 bytes
 
-struct gdt_entry { 
+typedef struct  __attribute__((packed)) gdt_entry {
   uint16_t limit_low; 
   uint16_t base_low; 
   uint8_t  base_middle; 
   uint8_t  access; 
   uint8_t  granularity; 
   uint8_t  base_high; 
-} __attribute__((packed));
+} t_gdt_entry;
 
-struct gdt_ptr {
+typedef struct  __attribute__((packed)) gdt_ptr {
     uint16_t limit;
     uint32_t base;
-} __attribute__((packed));
+} t_gdt_ptr;
 
 // CPU read 6 bytes from `lgdt` command
 

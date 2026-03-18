@@ -1,7 +1,7 @@
 #include "gdt.h"
 
-struct gdt_entry gdt[7];
-struct gdt_ptr gp;
+t_gdt_entry gdt[7];
+t_gdt_ptr	  *gp = (t_gdt_ptr *)GDT_ADDRESS;
 
 extern void gdt_flush(uint32_t);
 
@@ -21,8 +21,8 @@ void gdt_set_gate(int index, uint32_t base, uint32_t limit, uint8_t access, uint
 void gdt_init()
 {
     // Set the size of the GDT (total bytes - 1), the base address of the GDT
-    gp.limit = (sizeof(struct gdt_entry) * 7) - 1;
-    gp.base = (uint32_t)&gdt;
+    gp->limit = (sizeof(t_gdt_entry) * 7) - 1;
+    gp->base = (uint32_t)&gdt;
 
     gdt_set_gate(0, 0, 0, 0, 0);                 // null
 
@@ -36,5 +36,5 @@ void gdt_init()
     gdt_set_gate(6, 0, 0xFFFFFFFF, 0xF2, 0xCF);  // user stack
 
     // Load the new GDT into the CPU
-    gdt_flush((uint32_t)&gp);
+    gdt_flush((uint32_t)gp);
 }
