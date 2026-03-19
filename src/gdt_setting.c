@@ -1,56 +1,55 @@
-#include "gdt_setting.h"
+#include "kernel.h"
 
+gdt_entry_t	gdt[5];
+t_gdtr	gdtr;
 
-// segement descriptors 
-uint64_t	get_kernel_code(void)
+void	set_gdt_entry(gdt_entry_t *e, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
-	uint64_t	kernel_code = 0;
+	e->limit_low = limit & 0xFFFF;
+	e->base_low = base & 0xFFFF;
+	e->base_mid = (base >> 16) & 0xFF;
+	e->access = access;
+	e->gran = (uint8_t)(limit >> 16) & 0x0F;
+	e->gran |= (uint8_t)(gran &0xF0);
+	e->base_high = (base >> 24) & 0xFF;
 
-	kernel_code |= 0xFFFFULL; // limit 15 : 0
-	kernel_code |= 0xF << 16; // limit 19 : 16
-
-	kernel_code |= 0b10011010ULL	<< 40; // type (execute/read, accessed)
-	kernel_code |= 1ULL		<< 44; // S= 1 not a system descriptor
-	kernel_code |= 0ULL		<< 45; // DPL field = 0 (ring 0)
-	kernel_code |= 1ULL		<< 47; // P = 1 present
-	kernel_code |= 0ULL		<< 53; // long-mode
-	kernel_code |= 1ULL		<< 54; // D/B = 1 (32bit protected mode)
-	kernel_code |= 1ULL		<< 55; // G = 1 (32bit protected mode)
-	
-	return(kernel_code);
 }
 
-uint64_t	get_kernel_data(void)
-{
-	uint64_t	kernel_data = 0;
-
-	kernel_data |= 0xFFFFULL; // limit 15 : 0
-	kernel_data |= 0xF << 16; // limit 19 : 16
-
-	kernel_data |= 0b10010010ULL	<< 40; // type (execute/read, accessed)
-	kernel_data |= 1ULL	<< 44; // S= 1 not a system descriptor
-	kernel_data |= 0ULL		<< 45; // DPL field = 0 (ring 0)
-	kernel_data |= 1ULL		<< 47; // P = 1 present
+static void set_gdt_table(void) {
 	
-	kernel_data |= 0ULL		<< 53; // long-mode
-	kernel_data |= 1ULL		<< 54; // D/B = 1 (32bit protected mode)
-	kernel_data |= 1ULL		<< 55; // G = 1 (32bit protected mode)
-
-	return (kernel_data);
+    // gdt[0] = 0;
+    // gdt[1] = 0x00CF9A000000FFFFULL;  // kernel_code (완벽)
+    // gdt[2] = 0x00CF92000000FFFFULL;  // kernel_data (완벽)
+    // gdt[3] = 0;
+    // gdt[4] = 0;
+    
+    memset(gdt, 0, sizeof(gdt));
+    set_gdt_entry(&gdt[1], 0, GDT_LIMIT_4GB, GDT_CODE_KERNEL, GDT_GRAN_32BIT);
+    set_gdt_entry(&gdt[2], 0, GDT_LIMIT_4GB, GDT_DATA_KERNEL, GDT_GRAN_32BIT);
+    set_gdt_entry(&gdt[3], 0, GDT_LIMIT_4GB, GDT_CODE_USER, GDT_GRAN_32BIT);
+    set_gdt_entry(&gdt[4], 0, GDT_LIMIT_4GB, GDT_DATA_USER, GDT_GRAN_32BIT);
 }
 
-uint64_t	get_user_code(void)
+void	flush_gdt(void)
 {
-	uint64_t	user_code = get_kernel_code() | (3 << 13);
-	
-	return (user_code);
+	asm volatile (
+		"lgdtl (%0)		\n\t"
+		"movw	$0x10, %%ax \n\t"
+		"movw	%%ax, %%ds \n\t"
+		"movw	%%ax, %%es \n\t"
+		"movw	%%ax, %%fs \n\t"
+		"movw	%%ax, %%gs \n\t"
+		"movw	%%ax, %%ss \n\t"
+		"ljmp $0x08, $2f\n\t"
+		"2:				\n\t"
+		: : "r" (&gdtr) :"ax", "cc", "memory"
+	);
 }
 
-uint64_t	get_user_data(void)
+void	init_gdt(void)
 {
-	uint64_t	user_data = get_kernel_data() | (3 << 13);
-	
-	return (user_data);
+	set_gdt_table();
+	gdtr.limit = sizeof(gdt) - 1;
+	gdtr.base = (uint32_t)(uintptr_t)gdt;
+	flush_gdt();
 }
-
-
