@@ -5,14 +5,14 @@
 
 void	kernel_main(void)
 {
-  gdt_init();
-  g_vga.vga_buffer = (uint16_t *)VGA_MEMORY;
+	gdt_init();
+	g_vga.vga_buffer = (uint16_t *)VGA_MEMORY;
 
 	// print_ascii();
 	terminal_initialize();
 	terminal_write_line("hello 42 world!\n");
 
-  check_gdt_value();
+  	check_gdt_value();
   
 	keyboard_handler();
 }
