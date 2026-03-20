@@ -41,13 +41,13 @@ void gdt_init()
 
 void check_gdt_value() {
     printf("gdt: %p\n", (uint32_t)gdt);
-    printf("gdtr: %p\n", gdtr);
+    printf("gdtr: %p\n", &gdtr);
     printf("gdtr.base: %p\n", (uint32_t)gdtr.base);
     printf("gdtr.limit: %p\n", (uint32_t)gdtr.limit);
 
     printf("\nhexdump of gdt: %p\n", (uint32_t)gdt);
-    hexdump((uint32_t)gdt, 128);
+    hexdump((uint32_t)gdt, 64);
 
-    // printf("\nhexdump of gdtr: %p\n", gdtr);
-    // hexdump(gdtr, 128);
+    printf("\nhexdump of gdtr: %p\n", &gdtr);
+    hexdump(&gdtr, 64);
 }
