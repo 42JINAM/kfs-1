@@ -14,6 +14,7 @@ gdt_flush:
 
     ; Reload code segment (CS) with far jump
     jmp 0x08:.flush
+    ; jmp selector:offset
 
 .flush:
     ret
