@@ -22,7 +22,7 @@
 #define GDT_DATA_USER      0xF2  // P=1,DPL=3,S=1,Data/Write
 
 // granularity
-#define GDT_GRAN_32BIT     0xCF  // G=1(4GB),D=1(32bit),L=0,AVL=1
+#define GDT_FLAG_32BIT     0xCF  // G=1(4GB),D=1(32bit),L=0,AVL=0 | meaningless
 
 // limit
 #define GDT_LIMIT_4GB      0xFFFFF

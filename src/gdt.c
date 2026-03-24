@@ -5,7 +5,7 @@ t_gdtr	    gdtr;
 
 extern void gdt_flush(uint32_t);
 
-void create_descriptor(int index, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
+void create_descriptor(int index, uint32_t base, uint32_t limit, uint8_t access, uint8_t flag)
 {
     gdt[index].base_low = base & 0xFFFF;           // 2 bytes
     gdt[index].base_middle = (base >> 16) & 0xFF;  // 1 bytes
@@ -14,7 +14,7 @@ void create_descriptor(int index, uint32_t base, uint32_t limit, uint8_t access,
     gdt[index].limit_low = limit & 0xFFFF;         // 2 bytes
     gdt[index].granularity = (limit >> 16) & 0x0F; // 0.5 bytes
 
-    gdt[index].granularity |= gran & 0xF0;         // 0.5 bytes
+    gdt[index].granularity |= flag & 0xF0;         // 0.5 bytes
     gdt[index].access = access;                    // 1 bytes
 }
 
@@ -26,14 +26,14 @@ void gdt_init()
 
     create_descriptor(0, 0, 0, 0, 0); // null
 
-    //                i  b  limit          access           gran
-    create_descriptor(1, 0, GDT_LIMIT_4GB, GDT_CODE_KERNEL, GDT_GRAN_32BIT);  // kernel code
-    create_descriptor(2, 0, GDT_LIMIT_4GB, GDT_DATA_KERNEL, GDT_GRAN_32BIT);  // kernel data
-    create_descriptor(3, 0, GDT_LIMIT_4GB, GDT_DATA_KERNEL, GDT_GRAN_32BIT);  // kernel stack
+    //                i  b  limit          access           flag
+    create_descriptor(1, 0, GDT_LIMIT_4GB, GDT_CODE_KERNEL, GDT_FLAG_32BIT);  // kernel code
+    create_descriptor(2, 0, GDT_LIMIT_4GB, GDT_DATA_KERNEL, GDT_FLAG_32BIT);  // kernel data
+    create_descriptor(3, 0, GDT_LIMIT_4GB, GDT_DATA_KERNEL, GDT_FLAG_32BIT);  // kernel stack
 
-    create_descriptor(4, 0, GDT_LIMIT_4GB, GDT_CODE_USER,   GDT_GRAN_32BIT);  // user code
-    create_descriptor(5, 0, GDT_LIMIT_4GB, GDT_DATA_USER,   GDT_GRAN_32BIT);  // user data
-    create_descriptor(6, 0, GDT_LIMIT_4GB, GDT_DATA_USER,   GDT_GRAN_32BIT);  // user stack
+    create_descriptor(4, 0, GDT_LIMIT_4GB, GDT_CODE_USER,   GDT_FLAG_32BIT);  // user code
+    create_descriptor(5, 0, GDT_LIMIT_4GB, GDT_DATA_USER,   GDT_FLAG_32BIT);  // user data
+    create_descriptor(6, 0, GDT_LIMIT_4GB, GDT_DATA_USER,   GDT_FLAG_32BIT);  // user stack
 
     // Load the new GDT into the CPU
     gdt_flush((uint32_t)&gdtr);
