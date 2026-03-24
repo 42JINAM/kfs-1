@@ -1,6 +1,4 @@
-# kfs2
-
-## GDT (global descriptor table)
+# GDT (global descriptor table)
 The Global Descriptor Table (GDT) is a binary data structure specific to the IA-32 and x86-64 architectures. It contains entries telling the **CPU** about **memory segments**. 
 
 GDT is used to define memory segments and access permissions, like kernel vs user mode.
@@ -16,7 +14,7 @@ In our projct, GDT should contains entries below:
 *process memory layout used by operating systems (OS view)*
 
 
-## Segment descriptor = GDT entry structure
+# Segment descriptor = GDT entry structure
 A segment descriptor is a data structure used by the CPU (in x86 architecture) to describe a memory segment. It is 8 bytes (64 bits)
 
 [check image](https://en.wikipedia.org/wiki/Segment_descriptor)
@@ -124,7 +122,7 @@ L = 0	Not 64-bit
 AVL = 0	Unused
 ```
 
-### All descriptor
+## All descriptor
 With flat model:
 
 | Index | Segment Name     | Base | Limit        | Access | Flags | DPL |
@@ -148,3 +146,90 @@ If we use non-flat model, our segment descriptors would be like below:
 | 0x20  | User Code        | 0x01000000  | 0x007FFFFF   | 0xFA   | 0xC   | 3   | 8MiB | 
 | 0x28  | User Data        | 0x01800000  | 0x007FFFFF   | 0xF2   | 0xC   | 3   | 8MiB | 
 | 0x30  | User Stack       | 0x02000000  | 0x001FFFFF   | 0xF2   | 0xC   | 3   | 2MiB | 
+
+
+# GDT Register
+
+GDTR is a special register(system register) in x86 CPU that holds the address and size of the GDT, enabling the CPU to access segment descriptors (GDT can be located anywhere in memory).
+  
+
+## Layout
+|LIMIT(16)|----BASE(32)----|
+
+It's a 48bit register. The lower 16 bits specify gdt's size and the upper 32 bits specify the base address in memory. 
+
+## loading GDTR
+to load the gdtr, the instruction LGDT is used
+``` assembly
+lgdt [gdtr]
+```
+
+## How the CPU uses it
+
+When the value of the selector is changed, cpu gets the base address of gdt from GDTR.
+
+Then it finds the descriptor with the index obtained from the segment selector. 
+
+After getting the descriptor, CPU compares values between DPL of the descriptor and RPL of the segment selector. 
+
+If the values are equal, CPU caches the descriptor in the segment register.
+
+DPL : descriptor privilege level
+
+RPL : Requested Privilege Level
+
+# Segment registers ( == segment selector) 
+The segment registers point their segment. 
+
+In real mode, they point their segment base's address directly.
+
+But in protected mode, the 16 bit register contains the value of the segment selector.
+  
+## Layout
+
+- Index (13bit)
+- TI (1bit: gdt or ldt)
+- RPL (2bit) privilege
+
+## Types
+
+- CS : Code (getting commands)
+- DS : Data  (read / write data)
+- SS : stack (stack push/pop)
+- ES : extra (extra data)
+- FS : F segment (global data tls ...)
+- GS : G segment (global data - kernel)
+
+## The values of each segment registers 
+
+### CS register
+CS:0x08 (Code segment)
+- CS cannot be changed directly (only from cpu)
+- type field : Excute-only
+
+### DS register 
+DS:0x10 (Data segment)  
+
+
+### The others (SS, ES, FS, GS) in flat memory model
+- DS == SS == ES == FS == GS == 0x10 (in flat memory model) (0x10 = gdt[2]) 
+- But CS,DS, ES, FS, GS,SS are independent of each other
+
+
+## flat memory model 
+There is no boundary between data/stack segments.
+
+Data, stack, ES/FS/GS all shares one flat 4GB area(they have same base address and we use paging for separating the area). 
+
+
+
+## Descriptor Cache
+The cache for each selectors (CS, SS, DS, ES, FS, GS) include descriptor type, access rights, base and limit.
+(gpt said it's inside of the registers)
+
+
+
+
+[wikibooks](https://en.wikibooks.org/wiki/X86_Assembly/Global_Descriptor_Table)
+[descriptor cache](https://wiki.osdev.org/Descriptor_Cache)
+
