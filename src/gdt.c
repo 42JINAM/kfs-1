@@ -34,6 +34,8 @@ void gdt_init()
     create_descriptor(4, 0, GDT_LIMIT_4GB, GDT_CODE_USER,   GDT_FLAG_32BIT);  // user code
     create_descriptor(5, 0, GDT_LIMIT_4GB, GDT_DATA_USER,   GDT_FLAG_32BIT);  // user data
     create_descriptor(6, 0, GDT_LIMIT_4GB, GDT_DATA_USER,   GDT_FLAG_32BIT);  // user stack
+    
+    printf("gdt[2] access: %p\n", gdt[2].access);
 
     // Load the new GDT into the CPU
     gdt_flush((uint32_t)&gdtr);
@@ -50,4 +52,6 @@ void check_gdt_value() {
 
     printf("\nhexdump of gdtr: %p\n", &gdtr);
     hexdump((uint32_t)&gdtr, 64);
+    
+    printf("gdt[2] access: %p\n", gdt[2].access);
 }
