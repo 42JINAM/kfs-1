@@ -19,7 +19,7 @@ OUTDIR  := output
 # Files
 # ==============================
 
-NAME    := kfs-1
+NAME    := kfs-2
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
