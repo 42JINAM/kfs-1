@@ -2,6 +2,7 @@
 #define GDT_H
 
 #include <stdint.h>
+#include "utils/utils.h"
 
 #define GDT_ADDRESS	0x00000800
 

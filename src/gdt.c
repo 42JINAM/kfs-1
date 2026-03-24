@@ -49,5 +49,5 @@ void check_gdt_value() {
     hexdump((uint32_t)gdt, 64);
 
     printf("\nhexdump of gdtr: %p\n", &gdtr);
-    hexdump(&gdtr, 64);
+    hexdump((uint32_t)&gdtr, 64);
 }
