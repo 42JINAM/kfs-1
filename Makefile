@@ -23,7 +23,7 @@ NAME    := kfs-2
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := kernel terminal vga keyboard init switch_tab gdt \
+CFILES  := kernel terminal vga keyboard init switch_tab gdt interupt \
 		   utils/memcpy \
 		   utils/memset \
 		   utils/strlen \
@@ -37,7 +37,7 @@ CFILES  := kernel terminal vga keyboard init switch_tab gdt \
 		   ascii/ascii_4_bonus \
 		   ascii/ascii_5_bonus \
 		   ascii/ascii_bonus
-SFILES  := boot gdt_flush
+SFILES  := boot gdt_flush set_interupt
 
 C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
 S_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SFILES)))

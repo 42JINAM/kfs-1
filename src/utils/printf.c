@@ -1,6 +1,6 @@
 #include "utils.h"
 
-int	ft_format(const char **format, va_list ap)
+int	ft_format(const char **format, va_list *ap)
 {
 	(*format)++;
 	if (**format == 'c')
@@ -21,7 +21,7 @@ int	ft_format(const char **format, va_list ap)
 		return (-1);
 }
 
-int printf_internal(const char *format, va_list ap)
+int printf_internal(const char *format, va_list *ap)
 {
     int len = 0;
     int tmp;
@@ -47,7 +47,7 @@ int	printf(const char *format, ...)
 	int		len;
 
 	va_start (ap, format);
-	len = printf_internal(format, ap);
+	len = printf_internal(format, &ap);
 	va_end(ap);
 	return (len);
 }
