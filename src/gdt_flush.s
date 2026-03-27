@@ -10,6 +10,7 @@ gdt_flush:
     mov es, ax
     mov fs, ax
     mov gs, ax
+    mov ax, 0x18        ; kernel data selector
     mov ss, ax
 
     ; Reload code segment (CS) with far jump

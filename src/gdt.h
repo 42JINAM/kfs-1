@@ -18,8 +18,10 @@
 // access
 #define GDT_CODE_KERNEL    0x9A  // P=1,DPL=0,S=1,Code/Read
 #define GDT_DATA_KERNEL    0x92  // P=1,DPL=0,S=1,Data/Write
+#define GDT_STACK_KERNEL   0x96  // P=1,DPL=0,S=1,Data/Write
 #define GDT_CODE_USER      0xFA  // P=1,DPL=3,S=1,Code/Read
 #define GDT_DATA_USER      0xF2  // P=1,DPL=3,S=1,Data/Write
+#define GDT_STACK_USER      0xF6  // P=1,DPL=0,S=1,Data/Write
 
 // granularity
 #define GDT_FLAG_32BIT     0xCF  // G=1(4GB),D=1(32bit),L=0,AVL=0 | meaningless

@@ -29,11 +29,11 @@ void gdt_init()
     //                i  b  limit          access           flag
     create_descriptor(1, 0, GDT_LIMIT_4GB, GDT_CODE_KERNEL, GDT_FLAG_32BIT);  // kernel code
     create_descriptor(2, 0, GDT_LIMIT_4GB, GDT_DATA_KERNEL, GDT_FLAG_32BIT);  // kernel data
-    create_descriptor(3, 0, GDT_LIMIT_4GB, GDT_DATA_KERNEL, GDT_FLAG_32BIT);  // kernel stack
+    create_descriptor(3, 0, GDT_LIMIT_4GB, GDT_STACK_KERNEL, GDT_FLAG_32BIT);  // kernel stack
 
     create_descriptor(4, 0, GDT_LIMIT_4GB, GDT_CODE_USER,   GDT_FLAG_32BIT);  // user code
     create_descriptor(5, 0, GDT_LIMIT_4GB, GDT_DATA_USER,   GDT_FLAG_32BIT);  // user data
-    create_descriptor(6, 0, GDT_LIMIT_4GB, GDT_DATA_USER,   GDT_FLAG_32BIT);  // user stack
+    create_descriptor(6, 0, GDT_LIMIT_4GB, GDT_STACK_USER,   GDT_FLAG_32BIT);  // user stack
     
     printf("gdt[2] access: %p\n", gdt[2].access);
 

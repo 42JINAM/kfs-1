@@ -46,6 +46,7 @@ _start:
 
   ;2. call kernel_main
   extern kernel_main
+  push esp
   call kernel_main
 
   ;3. kernel termination loop
