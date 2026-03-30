@@ -29,7 +29,7 @@ OUTDIR  := output
 NAME    := kfs-4
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
-
+TARGET			:= $(OUTPUT)/$(IMAGE)
 # ==============================
 # Colors
 # ==============================
@@ -42,13 +42,17 @@ CEND    := \033[0m
 # Default Target
 # ==============================
 
-all:$(OUTPUT)/$(IMAGE)
+all:$(TARGET)
 
 # ==============================
 # Build Rules
 # ==============================
 
-$(OUTPUT)/$(IMAGE): grub.cfg
+run: $(TARGET)
+	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
+	qemu-system-i386 -cdrom $(OUTDIR)/$(IMAGE)
+
+$(TARGET): grub.cfg
 	@echo "$(CYELLOW)[*] Creating ISO image...$(CEND)"
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -60,28 +64,24 @@ $(OUTPUT)/$(IMAGE): grub.cfg
 # ==============================
 # Convenience Targets
 # ==============================
-build: $(OUTDIR)/$(IMAGE)
+build: $(TARGET)
 	@echo "$(CYELLOW)[*] Creating ISO image...$(CEND)"
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
-	mkdir -p iso/boot/
+	# mkdir -p iso/boot/grub 
 	docker compose up
 	@echo "$(CGREEN)[✓] Build finished$(CEND)"
-
-run: $(OUTDIR)/$(IMAGE)
-	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
-	qemu-system-i386 -cdrom $(OUTDIR)/$(IMAGE)
 
 # debug: $(IMAGE)
 # 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU in debug mode...$(CEND)"
 # 	qemu-system-i386 -s -S -cdrom $(IMAGE)
 
 clean:
-	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso
+	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso iso/boot/$(KERNEL)
 	@echo "$(CGREEN)[✓] Cleaned all build artifacts$(CEND)"
 
 re:		clean build
-# ==============================
+	# ==============================
 # Utility
 # ==============================
 
