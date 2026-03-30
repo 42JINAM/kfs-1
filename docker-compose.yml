@@ -6,5 +6,5 @@ services:
     platform: linux/amd64
     container_name: grub-builder
     volumes:
-      - ./output:/workspace/output
+      - .:/workspace
     working_dir: /workspace

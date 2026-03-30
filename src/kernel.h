@@ -7,7 +7,6 @@
 # include "utils/utils.h"
 # include "gdt.h"
 
-# include <limits.h>
 # include <stdbool.h>
 # include <stdarg.h>
 # include <stdint.h>

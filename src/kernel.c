@@ -14,7 +14,7 @@ void	kernel_main(uint32_t *addr)
 	// print_ascii();
 	terminal_initialize();
 	terminal_write_line("hello 42 world!\n");
-	printf("esp : %p %x\n", addr, *addr);
+	printf("eenough is enough : %p %x\n", addr, *addr);
 	gdt_init();
 
   	check_gdt_value();

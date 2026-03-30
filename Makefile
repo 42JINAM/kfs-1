@@ -3,45 +3,32 @@
 # ==============================
 
 # AS     := i686-elf-as
-AS      := nasm
-CC      := i686-elf-gcc
-LD      := i686-elf-gcc
+# AS      := gcc -m32 -x assembler
+# CC      := i686-elf-gcc
+# LD      := i686-elf-gcc
+#
+# CC      := gcc 
+# LD      := gcc
+#
+# COMPILE_FLAGS := -m32 -ffreestanding -nostdlib -fno-pic -fno-asynchronous-unwind-tables -fno-unwind-tables
+# LD_FLAGS = -m32 -ffreestanding -nostdlib -no-pie -Wl,--build-id=none
 
 # ==============================
+#
 # Directories
 # ==============================
-
-SRCDIR  := src
-OBJDIR  := objs
+#
+# SRCDIR  := src
+# OBJDIR  := objs
 OUTDIR  := output
-
+#
 # ==============================
 # Files
 # ==============================
 
-NAME    := kfs-2
+NAME    := kfs-4
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
-
-CFILES  := kernel terminal vga keyboard init switch_tab gdt \
-		   utils/memcpy \
-		   utils/memset \
-		   utils/strlen \
-		   utils/printf \
-		   utils/printf_format \
-		   utils/hexdump \
-		   utils/test_printf \
-		   ascii/ascii_1_bonus \
-		   ascii/ascii_2_bonus \
-		   ascii/ascii_3_bonus \
-		   ascii/ascii_4_bonus \
-		   ascii/ascii_5_bonus \
-		   ascii/ascii_bonus
-SFILES  := boot gdt_flush
-
-C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
-S_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SFILES)))
-OBJS    := $(C_OBJS) $(S_OBJS)
 
 # ==============================
 # Colors
@@ -55,39 +42,35 @@ CEND    := \033[0m
 # Default Target
 # ==============================
 
-all: $(IMAGE)
+all:$(OUTPUT)/$(IMAGE)
 
 # ==============================
 # Build Rules
 # ==============================
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) -std=gnu99 -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
-	$(AS) -f elf $< -o $@
-
-$(KERNEL): $(OBJS) linker.ld
-	$(LD) -nostdlib -ffreestanding -O2 -T linker.ld -o $@ $(OBJS) -lgcc
-	@echo "$(CGREEN)[✓] $(KERNEL) created$(CEND)"
-
-$(IMAGE): $(KERNEL) grub.cfg
+$(OUTPUT)/$(IMAGE): grub.cfg
 	@echo "$(CYELLOW)[*] Creating ISO image...$(CEND)"
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
+	mkdir -p iso/boot/
 	docker compose up --build
-	cp $(OUTDIR)/$(IMAGE) .
 	@echo "$(CGREEN)[✓] $(IMAGE) created$(CEND)"
+
 
 # ==============================
 # Convenience Targets
 # ==============================
-build: $(IMAGE)
+build: $(OUTDIR)/$(IMAGE)
+	@echo "$(CYELLOW)[*] Creating ISO image...$(CEND)"
+	rm -rf $(OUTDIR)
+	mkdir -p $(OUTDIR)
+	mkdir -p iso/boot/
+	docker compose up
 	@echo "$(CGREEN)[✓] Build finished$(CEND)"
 
-run: $(IMAGE)
+run: $(OUTDIR)/$(IMAGE)
 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
-	qemu-system-i386 -cdrom $(IMAGE)
+	qemu-system-i386 -cdrom $(OUTDIR)/$(IMAGE)
 
 # debug: $(IMAGE)
 # 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU in debug mode...$(CEND)"
@@ -101,10 +84,5 @@ re:		clean build
 # ==============================
 # Utility
 # ==============================
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
-	mkdir -p $(OBJDIR)/utils
-	mkdir -p $(OBJDIR)/ascii
-	@echo "$(CGREEN)[✓] $(OBJDIR) directory created$(CEND)"
 
 .PHONY: all build run clean
