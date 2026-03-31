@@ -35,3 +35,8 @@ void	PIC_sendEOI(uint8_t irq)
 		outb(PIC2_COMMAND, PIC1);
 	outb(PIC1_COMMAND, PIC1);
 }
+
+void    PIC_remap(int offset1, int offset2)
+{
+
+}

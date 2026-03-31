@@ -23,5 +23,5 @@ void	kernel_main(uint32_t *addr)
 	asm volatile("mov %%esp, %0" :"=r" (my_esp));
 	print_esp(my_esp);
 
-	keyboard_handler();
+	// keyboard_handler();
 	}

@@ -10,7 +10,7 @@ void	general_handler(uint8_t vector)
 
 	uint8_t	irq = vector - 32;
 	printk("got ya IRQ %u\n", irq);
-	if (irq == 1)
+	if (irq == 9 - 32)
 	{
 		printk(">> %u\n", vector);
 		keyboard_handler();
@@ -50,5 +50,5 @@ void	idt_initialize()
 		create_descriptor(interupt_table[i], INTERUPT_GATE, i);
 
 	asm volatile("lidt %0": :"m"(ptr));
-	// asm volatile("sti");
+	asm volatile("sti");
 }
