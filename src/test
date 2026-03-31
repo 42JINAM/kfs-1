@@ -1,4 +1,5 @@
-# ==============================
+#
+ ==============================
 # Compiler & Tools
 # ==============================
 
@@ -23,7 +24,7 @@ NAME    := kfs-4
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := kernel terminal vga keyboard init switch_tab gdt printk interupt \
+CFILES  := kernel terminal vga keyboard init switch_tab gdt \
 		   utils/memcpy \
 		   utils/memset \
 		   utils/strlen \
@@ -37,7 +38,7 @@ CFILES  := kernel terminal vga keyboard init switch_tab gdt printk interupt \
 		   ascii/ascii_4_bonus \
 		   ascii/ascii_5_bonus \
 		   ascii/ascii_bonus
-SFILES  := boot gdt_flush set_interupt
+SFILES  := boot gdt_flush
 
 C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
 S_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SFILES)))
@@ -55,14 +56,14 @@ CEND    := \033[0m
 # Default Target
 # ==============================
 
-all: $(KERNEL)
+all: $(IMAGE)
 
 # ==============================
 # Build Rules
 # ==============================
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
+	$(CC) -std=gnu99 -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
 	$(AS) -f elf $< -o $@
