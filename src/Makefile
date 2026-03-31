@@ -23,7 +23,7 @@ NAME    := kfs-4
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := kernel terminal vga keyboard init switch_tab gdt printk interupt \
+CFILES  := kernel terminal vga keyboard init switch_tab gdt printk interupt pic\
 		   utils/memcpy \
 		   utils/memset \
 		   utils/strlen \

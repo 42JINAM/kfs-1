@@ -1,17 +1,21 @@
 #include "interupt.h"
 #include "utils/utils.h"
+#include <stdint.h>
 extern void *interupt_table[];
 
 idt_entry*	idtr = (idt_entry*)IDT_ADDR;
 
 void	general_handler(uint8_t vector)
 {
-	printk("got ya %u\n", vector);
-	if (vector == 9)
+
+	uint8_t	irq = vector - 32;
+	printk("got ya IRQ %u\n", irq);
+	if (irq == 1)
 	{
 		printk(">> %u\n", vector);
 		keyboard_handler();
 	}
+	PIC_sendEOI(irq);
 	// asm volatile("cli; hlt");
 }
 
@@ -46,5 +50,5 @@ void	idt_initialize()
 		create_descriptor(interupt_table[i], INTERUPT_GATE, i);
 
 	asm volatile("lidt %0": :"m"(ptr));
-	asm volatile("sti");
+	// asm volatile("sti");
 }
