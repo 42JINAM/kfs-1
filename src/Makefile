@@ -78,7 +78,8 @@ $(KERNEL): $(OBJS) linker.ld
 # 	qemu-system-i386 -s -S -cdrom $(IMAGE)
 
 clean:
-	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso
+	rm -rf $(OBJDIR) $(OUTDIR) $(KERNEL) $(IMAGE)
+
 	@echo "$(CGREEN)[✓] Cleaned all build artifacts$(CEND)"
 
 re:		clean build

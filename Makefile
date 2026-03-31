@@ -26,6 +26,28 @@ OUTDIR  := output
 # Files
 # ==============================
 
+CFILES  := kernel terminal vga keyboard init switch_tab gdt printk interupt \
+		   utils/memcpy \
+		   utils/memset \
+		   utils/strlen \
+		   utils/printf \
+		   utils/printf_format \
+		   utils/hexdump \
+		   utils/test_printf \
+		   ascii/ascii_1_bonus \
+		   ascii/ascii_2_bonus \
+		   ascii/ascii_3_bonus \
+		   ascii/ascii_4_bonus \
+		   ascii/ascii_5_bonus \
+		   ascii/ascii_bonus
+SFILES  := boot gdt_flush set_interupt
+SRCDIR = src
+
+C_SRCS  := $(addprefix $(SRCDIR)/, $(addsuffix .c , $(CFILES)))
+S_SRCS  := $(addprefix $(SRCDIR)/, $(addsuffix .s , $(SFILES)))
+A_SRCS    := $(C_SRCS) $(S_SRCS)
+
+
 NAME    := kfs-4
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
@@ -48,11 +70,11 @@ all:$(TARGET)
 # Build Rules
 # ==============================
 
-run: $(TARGET)
+run: $(TARGET) $(A_SRCS)
 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
 	qemu-system-i386 -cdrom $(OUTDIR)/$(IMAGE)
 
-$(TARGET): grub.cfg
+$(TARGET): grub.cfg $(A_SRCS)
 	@echo "$(CYELLOW)[*] Creating ISO image...$(CEND)"
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -64,7 +86,7 @@ $(TARGET): grub.cfg
 # ==============================
 # Convenience Targets
 # ==============================
-build: $(TARGET)
+build: $(TARGET) $(A_SRCS)
 	@echo "$(CYELLOW)[*] Creating ISO image...$(CEND)"
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -77,7 +99,8 @@ build: $(TARGET)
 # 	qemu-system-i386 -s -S -cdrom $(IMAGE)
 
 clean:
-	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso iso/boot/$(KERNEL)
+	rm -rf $(TARGET)
+	cd src && make clean
 	@echo "$(CGREEN)[✓] Cleaned all build artifacts$(CEND)"
 
 re:		clean build
