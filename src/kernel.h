@@ -8,7 +8,6 @@
 # include "gdt.h"
 # include "interupt.h"
 
-# include <limits.h>
 # include <stdbool.h>
 # include <stdarg.h>
 # include <stdint.h>
