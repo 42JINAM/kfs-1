@@ -6,6 +6,7 @@
 # include "ascii/ascii.h"
 # include "utils/utils.h"
 # include "gdt.h"
+# include "interupt.h"
 
 # include <stdbool.h>
 # include <stdarg.h>

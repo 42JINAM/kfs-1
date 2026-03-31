@@ -12,20 +12,20 @@ int	ft_write_hex(unsigned long long nb, char *base)
 	return (cnt);
 }
 
-int	ft_printf_c(va_list ap)
+int	ft_printf_c(va_list* ap)
 {
 	char	c;
 
-	c = (char)va_arg(ap, int);
+	c = (char)va_arg(*ap, int);
 	terminal_write_char(c);
 	return (1);
 }
 
-int	ft_printf_s(va_list ap)
+int	ft_printf_s(va_list* ap)
 {
 	char	*s;
 
-	s = va_arg(ap, char *);
+	s = va_arg(*ap, char *);
 	if (!s) {
 		terminal_write_line("(null)");
 		return (6);
@@ -36,34 +36,34 @@ int	ft_printf_s(va_list ap)
 	}
 }
 
-int	ft_printf_p(va_list ap)
+int	ft_printf_p(va_list* ap)
 {
 	void	*ptr;
 	char	*base;
 
-	ptr = (void *)va_arg(ap, void *);
+	ptr = (void *)va_arg(*ap, void *);
 	terminal_write_char('0');
 	terminal_write_char('x');
 	base = "0123456789abcdef";
 	return (ft_write_hex((uintptr_t)ptr, base) + 2);
 }
 
-int	ft_printf_x(va_list ap)
+int	ft_printf_x(va_list* ap)
 {
 	unsigned int	x;
 	char			*base;
 
-	x = va_arg(ap, unsigned int);
+	x = va_arg(*ap, unsigned int);
 	base = "0123456789abcdef";
 	return (ft_write_hex(x, base));
 }
 
-int	ft_printf_xx(va_list ap)
+int	ft_printf_xx(va_list* ap)
 {
 	unsigned int	xx;
 	char			*base;
 
-	xx = va_arg(ap, unsigned int);
+	xx = va_arg(*ap, unsigned int);
 	base = "0123456789ABCDEF";
 	return (ft_write_hex(xx, base));
 }
