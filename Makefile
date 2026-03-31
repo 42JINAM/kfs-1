@@ -19,7 +19,7 @@
 # ==============================
 #
 # SRCDIR  := src
-# OBJDIR  := objs
+OBJDIR  := objs
 OUTDIR  := output
 #
 # ==============================
@@ -77,7 +77,7 @@ build: $(TARGET)
 # 	qemu-system-i386 -s -S -cdrom $(IMAGE)
 
 clean:
-	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso iso/boot/$(KERNEL)
+	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso iso/boot/$(KERNEL) src/$(OBJDIR)
 	@echo "$(CGREEN)[✓] Cleaned all build artifacts$(CEND)"
 
 re:		clean build
