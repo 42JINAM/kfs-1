@@ -77,7 +77,7 @@ void switch_tab(enum e_current_tab current, t_tab* from, t_tab* to)
 
 void keyboard_handler()
 {
-	while (1) {
+	// while (1) {
         uint8_t scancode = read_keyboard();
 
         if (scancode & 0x80) {
@@ -96,10 +96,11 @@ void keyboard_handler()
             }
             else
             {
-                if (blocked[scancode]) continue;
+                // if (blocked[scancode]) continue;
+                if (blocked[scancode]) return;
                 unsigned char key = scancode_set[scancode];
                 terminal_write_char(key);
             }
         }
-    }
+    // }
 }

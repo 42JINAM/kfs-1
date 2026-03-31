@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "printk.h"
 #include "utils/utils.h"
+#include "keyboard.h"
 #define MAX_SIZE 255
 #define IDT_ADDR 0xF00
 #define CS 0x08

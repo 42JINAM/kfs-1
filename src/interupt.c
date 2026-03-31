@@ -7,7 +7,12 @@ idt_entry*	idtr = (idt_entry*)IDT_ADDR;
 void	general_handler(uint8_t vector)
 {
 	printk("got ya %u\n", vector);
-	asm volatile("cli; hlt");
+	if (vector == 9)
+	{
+		printk(">> %u\n", vector);
+		keyboard_handler();
+	}
+	// asm volatile("cli; hlt");
 }
 
 static void	create_descriptor(void *idt, uint8_t flags, uint8_t vector)
@@ -37,7 +42,7 @@ void	idt_initialize()
 	ptr.size = (uint16_t)(sizeof(idt_entry) * MAX_SIZE - 1);
 	ptr.addr = (uint32_t)IDT_ADDR;
 
-	for (uint8_t i = 0; i < 32; i++)
+	for (uint8_t i = 0; i < 33; i++)
 		create_descriptor(interupt_table[i], INTERUPT_GATE, i);
 
 	asm volatile("lidt %0": :"m"(ptr));
