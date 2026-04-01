@@ -1,4 +1,6 @@
 #include "kernel.h"
+#include "keyboard.h"
+#include "pic.h"
 
 
 void print_esp(uint32_t * addr)
@@ -13,15 +15,17 @@ void	kernel_main(uint32_t *addr)
 
 	// print_ascii();
 	terminal_initialize();
-	terminal_write_line("hello 42 world!\n");
-	printk("eenough is enough : %p %x\n", addr, *addr);
+	// terminal_write_line("hello 42 world!\n");
+	// printk("eenough is enough : %p %x\n", addr, *addr);
 	gdt_init();
-	check_gdt_value();
+	// check_gdt_value();
 	idt_initialize();
-	check_idt_value();
-  	uint32_t* my_esp;
-	asm volatile("mov %%esp, %0" :"=r" (my_esp));
-	print_esp(my_esp);
-
+	// check_idt_value();
+	//  	uint32_t* my_esp;
+	// asm volatile("mov %%esp, %0" :"=r" (my_esp));
+	// print_esp(my_esp);
+	//
 	// keyboard_handler();
+	while(1)
+		asm volatile("hlt");
 	}
