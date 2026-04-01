@@ -62,7 +62,7 @@ all: $(KERNEL)
 # ==============================
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
+	$(CC) -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs -ffreestanding -O2 -nostdlib -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
 	$(AS) -f elf $< -o $@
