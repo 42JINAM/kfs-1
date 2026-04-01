@@ -11,6 +11,9 @@
 #define PIC1_DATA	(PIC1+1)
 #define PIC2_COMMAND	PIC2
 #define PIC2_DATA	(PIC2+1)
+#define PIC_EOI     0x20    // End-of-Interrupt command
+
+#define CASCADE_IRQ 2
 
 #define ICW1_ICW4	0x01		/* Indicates that ICW4 will be present */
 #define ICW1_SINGLE	0x02		/* Single (cascade) mode */
@@ -27,4 +30,7 @@
 void	outb(uint16_t port, uint8_t val);
 uint8_t inb(uint16_t port);
 void	PIC_sendEOI(uint8_t irq);
+void    PIC_remap(int offset1, int offset2);
+void	IRQ_clear_mask(uint8_t IRQline);
+void	IRQ_set_mask(uint8_t IRQline);
 #endif // !PIC_H
