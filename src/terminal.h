@@ -1,10 +1,7 @@
 #ifndef TERMINAL_H
 # define TERMINAL_H
 
-# include <stdbool.h>
-# include <stddef.h>
-# include <stdint.h>
-
+# include "pic.h"
 /* VGA Hardware Text mode (80 * 25 color text mode) */
 # define VGA_WIDTH	80
 # define VGA_HEIGHT	25	
@@ -52,16 +49,6 @@ typedef struct s_terminal
 	t_tab				t1;
 	t_tab				t2;
 }	t_terminal;
-
-static inline void outb(uint16_t port, uint8_t val)
-{
-    __asm__ volatile ( "outb %b0, %w1" : : "a"(val), "Nd"(port) : "memory");
-    /* There's an outb %al, $imm8 encoding, for compile-time constant port numbers that fit in 8b. (N constraint).
-     * Wider immediate constants would be truncated at assemble-time (e.g. "i" constraint).
-     * The  outb  %al, %dx  encoding is the only option for all other cases.
-     * %1 expands to %dx because  port  is a uint16_t.  %w1 could be used if we had the port number a wider C type */
-}
-
 // vga.c
 uint8_t		vga_entry_color(enum e_vga_color fg, enum e_vga_color bg);
 uint16_t	vga_entry(unsigned char uc, uint8_t color);

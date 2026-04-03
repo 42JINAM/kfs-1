@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "printk.h"
 #include "keyboard.h"
 
 unsigned char blocked[128] = {
@@ -77,8 +78,10 @@ void switch_tab(enum e_current_tab current, t_tab* from, t_tab* to)
 
 void keyboard_handler()
 {
-	while (1) {
-        uint8_t scancode = read_keyboard();
+	// while (1) {
+        // uint8_t scancode = read_keyboard();
+        uint8_t scancode = inb(0x60);
+		if (scancode >= 128) return;
 
         if (scancode & 0x80) {
             // release
@@ -96,10 +99,24 @@ void keyboard_handler()
             }
             else
             {
-                if (blocked[scancode]) continue;
+                // if (blocked[scancode]) continue;
+				if (scancode >= sizeof(blocked)) return; 
+                if (blocked[scancode]) return;
                 unsigned char key = scancode_set[scancode];
                 terminal_write_char(key);
             }
         }
+    // }
+}
+
+void    keyboard_poll()
+{
+    if (inb(0x64) & 1)
+    {
+        keyboard_handler();
     }
+    else
+	{
+		for (volatile int i = 0; i < 1000; i++);
+	}
 }

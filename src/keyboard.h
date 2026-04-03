@@ -1,17 +1,10 @@
 #ifndef KEYBOARD_H
 # define KEYBOARD_H 
 
-void keyboard_handler();
+void	keyboard_handler();
+void    keyboard_poll();
 
-static inline uint8_t inb(uint16_t port)
-{
-    uint8_t ret;
-    __asm__ volatile ( "inb %w1, %b0"
-                   : "=a"(ret)
-                   : "Nd"(port)
-                   : "memory");
-    return ret;
-}
+
 
 // Special keys
 #define KEY_ESC        	0x01
