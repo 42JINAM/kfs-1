@@ -1,6 +1,6 @@
 #include "kernel.h"
-#include "printk.h"
 #include "keyboard.h"
+#include "utils/utils.h"
 
 unsigned char blocked[128] = {
     [KEY_ESC] = 1, [KEY_LCTRL] = 1, [KEY_LSHIFT] = 1, [KEY_RSHIFT] = 1,
@@ -85,6 +85,7 @@ void keyboard_handler()
 
         if (scancode & 0x80) {
             // release
+			printk("Realease\n");
         } else {
             // pressed
             if (scancode == KEY_BACK)
@@ -106,17 +107,13 @@ void keyboard_handler()
                 terminal_write_char(key);
             }
         }
+		
+		
     // }
 }
 
 void    keyboard_poll()
 {
-    if (inb(0x64) & 1)
-    {
-        keyboard_handler();
-    }
-    else
-	{
-		for (volatile int i = 0; i < 1000; i++);
-	}
+    keyboard_handler();
+	PIC_sendEOI(KEYBOARD_CODE - PIC1);
 }

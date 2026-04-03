@@ -3,17 +3,21 @@ extern general_handler
 
 %macro interupt 1 
 interupt_%+%1:
+	pusha
 	push %1
 	call general_handler
 	add esp, 4
+	popa
 	iret
 %endmacro
 
 %macro interupt_err 1
 interupt_err_%+%1:
+	pusha
 	push %1
 	call general_handler
 	add esp, 4
+	popa
 	iret
 %endmacro
 
@@ -51,103 +55,22 @@ interupt 30
 interupt 31
 interupt 32
 interupt 33
-
-interupt_34:
-    push 34
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_35:
-    push 35
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_36:
-    push 36
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_37:
-    push 37
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_38:
-    push 38
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_39:
-    push 38
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_40:
-    push 40
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_41:
-    push 41
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_42:
-    push 42
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_43:
-    push 43
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_44:
-    push 44
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_45:
-    push 45
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_46:
-    push 46
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_47:
-    push 47
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_48:
-    push 48
-    call general_handler
-    add esp, 4
-    iret
-
-interupt_49:
-    push 49
-    call general_handler
-    add esp, 4
-    iret
-
+interupt 34
+interupt 35
+interupt 36
+interupt 37
+interupt 38
+interupt 39
+interupt 40
+interupt 41
+interupt 42
+interupt 43
+interupt 44	
+interupt 45
+interupt 46
+interupt 47
+interupt 48
+interupt 49
 
 
 global interupt_table

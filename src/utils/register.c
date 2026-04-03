@@ -16,17 +16,27 @@ void	clean_registers(void)
 					);
 }
 
-/// @brief 
-/// @param  
+static void	print_stack(void)
+{
+	uint32_t *ebp;
+
+	asm volatile("mov %%ebp, %0":"=r"(ebp));
+	for (int i = 0; i < 20; i++)
+		printk("%p :%x \n", ebp + i, *(ebp + i));
+
+}
+
 void	print_stack_frame(void)
 {
 	t_stack_frame* frame;
 
+	print_stack();
 	asm volatile("mov %%ebp, %0": "=r"(frame));
-	printf("first ebp %p\n", frame);
-	while (frame)
-	{
-		printf("call addr: %p\n", frame->eip);
-		frame = frame->ebp;
-	}
+	
+	// printf("first ebp %p\n", frame);
+	// while (frame)
+	// {
+	// 	printf("call addr: %p\n", frame->eip);
+	// 	frame = frame->ebp;
+	// }
 }

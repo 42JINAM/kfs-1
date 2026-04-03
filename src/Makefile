@@ -23,11 +23,12 @@ NAME    := kfs-4
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := kernel terminal vga keyboard init switch_tab gdt printk interupt pic\
+CFILES  := kernel terminal vga keyboard init switch_tab gdt interupt pic\
 		   utils/memcpy \
 		   utils/memset \
 		   utils/strlen \
 		   utils/printf \
+		   utils/printk \
 		   utils/printf_format \
 		   utils/hexdump \
 		   utils/test_printf \
@@ -63,7 +64,7 @@ all: $(KERNEL)
 # ==============================
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) -fno-omit-frame-pointer -fno-builtin -nostdlib -nodefaultlibs -ffreestanding -O2 -nostdlib -c $< -o $@
+	$(CC) -fno-omit-frame-pointer -fno-builtin -nostdlib -nodefaultlibs -ffreestanding -nostdlib -Wall -Wextra -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
 	$(AS) -f elf $< -o $@

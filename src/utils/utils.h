@@ -13,6 +13,7 @@ typedef struct stack_frame{
 }	t_stack_frame;
 
 int	    printf(const char *format, ...);
+void	printk(char *str, ...);
 int	    ft_printf_c(va_list* ap);
 int	    ft_printf_s(va_list* ap);
 int	    ft_printf_p(va_list* ap);

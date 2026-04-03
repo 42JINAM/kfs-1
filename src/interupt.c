@@ -15,15 +15,17 @@ void	schedule_signal(uint8_t vector)
 	if (interupt_callback[vector])
 		interupt_callback[vector]();
 	else
-		printk("interupt not handled %u", vector);
+	{
+		printk("interupt not handled %u\n", vector);
+		print_stack_frame();
+		clean_registers();
+		asm volatile("cli; hlt");
+	}
 }
 
 void	general_handler(uint8_t vector)
 {
 	schedule_signal(vector);
-	print_stack_frame();
-	clean_registers();
-	asm volatile("cli; hlt");
 }
 
 static void	create_descriptor(void *idt, uint8_t flags, uint8_t vector)
@@ -46,6 +48,13 @@ void check_idt_value() {
 }
 
 
+static void	set_interupt_callback()
+{
+	for (uint16_t i = 0; i < 256; i++)
+		interupt_callback[i] = 0;
+	interupt_callback[KEYBOARD_CODE] = &keyboard_poll;
+}
+
 void	idt_initialize()
 {
 	idt_ptr	ptr;
@@ -56,9 +65,7 @@ void	idt_initialize()
 	// 0 - 31
 	for (uint8_t i = 0; i < 32; i++)
 		create_descriptor(interupt_table[i], INTERUPT_GATE, i);
-	for (uint16_t i = 0; i < 256; i++)
-		interupt_callback[i] = 0;
-
+	set_interupt_callback();
 	//IRQ 0 - 15 (32 - 47)
 	for (uint8_t irq = 0; irq < 16; irq++)
 		create_descriptor(interupt_table[32 + irq], INTERUPT_GATE, 32 + irq);
@@ -68,6 +75,7 @@ void	idt_initialize()
 	IRQ_clear_mask(1);
 	asm volatile("lidt %0": :"m"(ptr));
 	asm volatile("sti");
+	
 	terminal_write_line("sti called waiting interrupts...\n");
 	// asm volatile("xorl %%eax, %%eax\n\t"
 	// 		 "divl %%eax"             // 0으로 나누기 → 예외 0
