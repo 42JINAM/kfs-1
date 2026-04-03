@@ -8,23 +8,22 @@ extern void *interupt_table[];
 
 idt_entry*	idtr = (idt_entry*)IDT_ADDR;
 
+void (*interupt_callback[MAX_SIZE + 1])(void);
+
+void	schedule_signal(uint8_t vector)
+{
+	if (interupt_callback[vector])
+		interupt_callback[vector]();
+	else
+		printk("interupt not handled %u", vector);
+}
+
 void	general_handler(uint8_t vector)
 {
-	// printk("general_handler called, vector = %u\n", vector);
-
-	if (vector < 32)
-	{
-		printk("BUG: exception vector %d (not IRQ)\n", vector);
-		// return ;
-		asm volatile("cli; hlt");
-	}
-	uint8_t irq = vector - 32;
-	if (irq == 1)
-	{
-		keyboard_handler();
-	}
-	if (irq < 16)
-		PIC_sendEOI(irq);
+	schedule_signal(vector);
+	print_stack_frame();
+	clean_registers();
+	asm volatile("cli; hlt");
 }
 
 static void	create_descriptor(void *idt, uint8_t flags, uint8_t vector)
@@ -57,6 +56,8 @@ void	idt_initialize()
 	// 0 - 31
 	for (uint8_t i = 0; i < 32; i++)
 		create_descriptor(interupt_table[i], INTERUPT_GATE, i);
+	for (uint16_t i = 0; i < 256; i++)
+		interupt_callback[i] = 0;
 
 	//IRQ 0 - 15 (32 - 47)
 	for (uint8_t irq = 0; irq < 16; irq++)
