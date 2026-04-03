@@ -1,7 +1,8 @@
 #ifndef INTERUPT_H
 #define INTERUPT_H
 #include <stdint.h>
-#include "printk.h"
+#include "keyboard.h"
+#include "pic.h"
 #include "utils/utils.h"
 #define MAX_SIZE 255
 #define IDT_ADDR 0xF00
@@ -9,6 +10,8 @@
 #define TASK_GATE 0x85
 #define INTERUPT_GATE 0x8E
 #define TRAP_GATE 0x8F
+
+#define KEYBOARD_CODE PIC1 + 0x01
 
 typedef struct {
 	uint16_t	low_offset;

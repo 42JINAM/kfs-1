@@ -1,5 +1,6 @@
 #include "kernel.h"
 #include "keyboard.h"
+#include "utils/utils.h"
 
 unsigned char blocked[128] = {
     [KEY_ESC] = 1, [KEY_LCTRL] = 1, [KEY_LSHIFT] = 1, [KEY_RSHIFT] = 1,
@@ -77,11 +78,14 @@ void switch_tab(enum e_current_tab current, t_tab* from, t_tab* to)
 
 void keyboard_handler()
 {
-	while (1) {
-        uint8_t scancode = read_keyboard();
+	// while (1) {
+        // uint8_t scancode = read_keyboard();
+        uint8_t scancode = inb(0x60);
+		if (scancode >= 128) return;
 
         if (scancode & 0x80) {
             // release
+			printk("Realease\n");
         } else {
             // pressed
             if (scancode == KEY_BACK)
@@ -96,10 +100,20 @@ void keyboard_handler()
             }
             else
             {
-                if (blocked[scancode]) continue;
+                // if (blocked[scancode]) continue;
+				if (scancode >= sizeof(blocked)) return; 
+                if (blocked[scancode]) return;
                 unsigned char key = scancode_set[scancode];
                 terminal_write_char(key);
             }
         }
-    }
+		
+		
+    // }
+}
+
+void    keyboard_poll()
+{
+    keyboard_handler();
+	PIC_sendEOI(KEYBOARD_CODE - PIC1);
 }

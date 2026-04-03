@@ -26,9 +26,10 @@ OUTDIR  := output
 # Files
 # ==============================
 
-CFILES  := kernel terminal vga keyboard init switch_tab gdt printk interupt \
+CFILES  := kernel terminal vga keyboard init switch_tab gdt interupt \
 		   utils/memcpy \
 		   utils/memset \
+		   utils/printk \
 		   utils/strlen \
 		   utils/printf \
 		   utils/printf_format \
