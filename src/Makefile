@@ -31,6 +31,7 @@ CFILES  := kernel terminal vga keyboard init switch_tab gdt printk interupt \
 		   utils/printf_format \
 		   utils/hexdump \
 		   utils/test_printf \
+		   utils/register\
 		   ascii/ascii_1_bonus \
 		   ascii/ascii_2_bonus \
 		   ascii/ascii_3_bonus \
@@ -62,7 +63,7 @@ all: $(KERNEL)
 # ==============================
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
+	$(CC) -fno-omit-frame-pointer -fno-builtin -nostdlib -nodefaultlibs -ffreestanding -nostdlib -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
 	$(AS) -f elf $< -o $@

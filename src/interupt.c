@@ -4,9 +4,22 @@ extern void *interupt_table[];
 
 idt_entry*	idtr = (idt_entry*)IDT_ADDR;
 
+void (*interupt_callback[MAX_SIZE + 1])(void);
+
+void	schedule_signal(uint8_t vector)
+{
+	if (interupt_callback[vector])
+		interupt_callback[vector]();
+	else
+		printk("interupt not handled %u", vector);
+}
+
 void	general_handler(uint8_t vector)
 {
 	printk("got ya %u\n", vector);
+	schedule_signal(vector);
+	print_stack_frame();
+	clean_registers();
 	asm volatile("cli; hlt");
 }
 
@@ -39,7 +52,8 @@ void	idt_initialize()
 
 	for (uint8_t i = 0; i < 32; i++)
 		create_descriptor(interupt_table[i], INTERUPT_GATE, i);
-
+	for (uint16_t i = 0; i < 256; i++)
+		interupt_callback[i] = 0;
 	asm volatile("lidt %0": :"m"(ptr));
 	asm volatile("sti");
 }
